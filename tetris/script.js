@@ -286,6 +286,11 @@ function getRandomInt(min, max) {
     }
   });
 
+  // Prevent touchmove events from scrolling the page
+  document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, { passive: false });
+
   // Touch control variables
   let touchStartX = 0;
   let touchStartY = 0;
