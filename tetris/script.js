@@ -285,6 +285,65 @@ function getRandomInt(min, max) {
       tetromino.row = row;
     }
   });
+
+  // Touch control variables
+  let touchStartX = 0;
+  let touchStartY = 0;
+  
+  // Listen for touch events
+  document.addEventListener('touchstart', function(e) {
+    if (gameOver) return;
+  
+    // Store the starting touch coordinates
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  });
+  
+  document.addEventListener('touchend', function(e) {
+    if (gameOver) return;
+  
+    // Calculate the touch movement
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+  
+    // Determine if the movement is more horizontal or vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal movement
+      if (deltaX > 0) {
+        // Move right
+        const col = tetromino.col + 1;
+        if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+          tetromino.col = col;
+        }
+      } else {
+        // Move left
+        const col = tetromino.col - 1;
+        if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+          tetromino.col = col;
+        }
+      }
+    } else {
+      // Vertical movement
+      if (deltaY > 0) {
+        // Move down
+        const row = tetromino.row + 1;
+        if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
+          tetromino.row = row - 1;
+          placeTetromino();
+        } else {
+          tetromino.row = row;
+        }
+      } else {
+        // Rotate on upward swipe
+        const matrix = rotate(tetromino.matrix);
+        if (isValidMove(matrix, tetromino.row, tetromino.col)) {
+          tetromino.matrix = matrix;
+        }
+      }
+    }
+  });
   
   // start the game
   rAF = requestAnimationFrame(loop);
