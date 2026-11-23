@@ -1,14 +1,98 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Tetris | Safa G.</title>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="Play Tetris, a colorful little side project by Safa G.">
+  <title>Tetris | Safa G.</title>
   <link rel="icon" type="image/png" href="../static/Pics/icon.png">
   <link rel="stylesheet" href="tetriss.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <canvas width="310" height="630" id="game"></canvas>
-  <script src="script.js"></script>
+  <header class="topbar">
+    <a class="brand" href="../index.html" aria-label="Safa G. homepage">
+      <span class="brand-mark">SG</span>
+      <span>Safa<span class="brand-dot">.</span></span>
+    </a>
+    <nav class="top-links" aria-label="Site navigation">
+      <a href="https://github.com/safag05" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      <a class="back-link" href="../index.html"><span aria-hidden="true">←</span> Back to portfolio</a>
+    </nav>
+  </header>
+
+  <main class="page-content">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> SIDE PROJECT <span class="eyebrow-divider">/</span> GAME 001</div>
+    <div class="heading-row">
+      <div>
+        <h1>Let's play <span>Tetris.</span></h1>
+        <p class="subtitle">A little break from the terminal. Stack blocks, clear lines, beat your best.</p>
+      </div>
+      <div class="built-with">BUILT WITH <strong>HTML · CSS · JS</strong></div>
+    </div>
+
+    <section class="game-layout" aria-label="Tetris game">
+      <aside class="stats-panel" aria-label="Game statistics">
+        <div class="metric metric-primary"><div class="metric-name">SCORE <span>↗</span></div><div class="metric-value" id="score">0</div><div class="metric-subtitle">Keep it going</div></div>
+        <div class="metric"><div class="metric-name">PERSONAL BEST</div><div class="metric-value" id="best">0</div></div>
+        <div class="metric"><div class="metric-name">LINES CLEARED</div><div class="metric-value" id="lines">0</div></div>
+        <div class="metric"><div class="metric-name">LEVEL</div><div class="metric-value" id="level">1</div></div>
+        <div class="tip-card"><span class="tip-sparkle">✦</span><strong>Quick tip</strong><p>See the shadow? That's where your piece will land. Press <kbd>Space</kbd> to drop it instantly.</p></div>
+      </aside>
+
+      <section class="board-panel" aria-label="Playfield">
+        <div class="board-topline"><span><i class="live-dot"></i><span id="gameStatus">READY TO PLAY</span></span><span>10 × 20 GRID</span></div>
+        <div class="board-container">
+          <canvas id="game" width="300" height="600" aria-label="Tetris game board, 10 columns and 20 rows"></canvas>
+          <div class="board-overlay" id="overlay">
+            <div class="overlay-icon" aria-hidden="true">▦</div>
+            <h2 id="overlayTitle">READY, PLAYER ONE?</h2>
+            <p id="overlayDescription">Make your first move. You've got this.</p>
+            <button type="button" id="overlayButton" class="button button-primary overlay-button">Start playing <span aria-hidden="true">→</span></button>
+            <span class="overlay-hint">PRESS ENTER TO START</span>
+          </div>
+        </div>
+        <div class="board-bottomline"><span><i class="status-sparkle">✦</i> Classic mode</span><span>MADE FOR FUN</span></div>
+        <div class="touch-controls" aria-label="Touch game controls">
+          <button type="button" class="touch-button" data-action="left" aria-label="Move left">←</button>
+          <button type="button" class="touch-button" data-action="rotate" aria-label="Rotate piece">⟳</button>
+          <button type="button" class="touch-button" data-action="right" aria-label="Move right">→</button>
+          <button type="button" class="touch-button" data-action="down" aria-label="Move down">↓</button>
+          <button type="button" class="touch-button touch-button-accent" data-action="drop" aria-label="Hard drop">DROP</button>
+        </div>
+      </section>
+
+      <aside class="utility-panel" aria-label="Game controls and previews">
+        <div class="preview-card">
+          <div class="panel-label"><span>NEXT UP</span><span class="panel-symbol">↗</span></div>
+          <canvas id="nextPreview" width="150" height="96" aria-label="Next Tetris piece"></canvas>
+        </div>
+        <div class="preview-card">
+          <div class="panel-label"><span>HOLD <small>(C)</small></span><span class="panel-symbol">◇</span></div>
+          <canvas id="holdPreview" width="150" height="96" aria-label="Held Tetris piece"></canvas>
+        </div>
+        <div class="control-card">
+          <div class="panel-label">GAME CONTROLS</div>
+          <button type="button" id="newGameButton" class="button button-primary button-wide">New game <span aria-hidden="true">↗</span></button>
+          <div class="button-pair">
+            <button type="button" id="pauseButton" class="button button-secondary" disabled>Ⅱ Pause</button>
+            <button type="button" id="soundButton" class="button button-secondary" aria-pressed="false">♪ Sound off</button>
+          </div>
+          <button type="button" id="holdButton" class="button button-secondary button-wide" disabled>◇ Hold piece</button>
+        </div>
+        <div class="keyboard-card">
+          <div class="panel-label">KEYBOARD SHORTCUTS</div>
+          <div><span>Move</span><span><kbd>←</kbd> <kbd>→</kbd></span></div>
+          <div><span>Rotate</span><span><kbd>↑</kbd> / <kbd>X</kbd></span></div>
+          <div><span>Soft drop</span><span><kbd>↓</kbd></span></div>
+          <div><span>Hard drop</span><span><kbd>Space</kbd></span></div>
+          <div><span>Hold / Pause</span><span><kbd>C</kbd> / <kbd>P</kbd></span></div>
+        </div>
+      </aside>
+    </section>
+    <div class="bottom-note"><span>✦</span> One more round? Your personal best is saved in this browser.</div>
+  </main>
+  <footer class="footer"><span>© 2026 Safa G. · Made with curiosity.</span><a href="../index.html">Back to portfolio ↗</a></footer>
 </body>
 </html>
